@@ -2,10 +2,10 @@ from collections import OrderedDict
 import io
 import os.path
 import zipfile
-
+import re
+import requests
 from django.core.management.base import CommandError
 from django.db import transaction, DatabaseError, IntegrityError
-import requests
 
 from .models import (RodzajMiejscowosci, JednostkaAdministracyjna,
                     Miejscowosc, Ulica)
@@ -16,14 +16,30 @@ from .utils import get_xml_id_dictionary, parse
 # Miejscowosc depends on RodzajMiejscowosci and so on. If file would
 # be updated in other order, foreign keys dependencies will be broken.
 fn_dict = OrderedDict([
-            ('WMRODZ.xml', RodzajMiejscowosci),
-            ('TERC.xml', JednostkaAdministracyjna),
-            ('SIMC.xml', Miejscowosc),
-            ('ULIC.xml', Ulica),
+            ('WMRODZ', RodzajMiejscowosci),
+            ('TERC', JednostkaAdministracyjna),
+            ('SIMC', Miejscowosc),
+            ('ULIC', Ulica),
         ])
+
+# example filename 
+fn_regexp = re.compile(r'(?P<model>SIMC|TERC|ULIC|WMRODZ)(_(?P<type>[A-Za-z]+))?(_(?P<date>\d{4}\-\d{2}\-\d{2}))?\.(?P<extension>xml|XML|zip|ZIP)')
 
 url_tmpl = 'http://www.stat.gov.pl/broker/access/'\
             'prefile/downloadPreFile.jspa?id={}'
+
+def match_file_name_to_model_name(file_name):
+    match = fn_regexp.match(file_name)
+    if match:
+        return match.group('model')
+    return None
+
+def sort_file_names(file_names):
+    # XXX: fn_dict is orderd
+    keys = fn_dict.keys()
+    file_name_list = [x for x in file_names if match_file_name_to_model_name(os.path.basename(x))]
+    return sorted(file_name_list, key=lambda x: keys.index(match_file_name_to_model_name(os.path.basename(x))))
+
 
 
 def open_zipfile_from_url(filename, url):
@@ -47,16 +63,15 @@ def get_zip_files():
 
 def update_database(xml_stream, fname, force_flag):
     try:
-        teryt_class = fn_dict[os.path.basename(fname)]
+        teryt_class = fn_dict[match_file_name_to_model_name(os.path.basename(fname))]
     except KeyError as e:
-        raise CommandError('Unknown filename: {}'.format(e))
+        raise CommandError('Unknown filename: {}'.format(fname))
 
     try:
         with transaction.atomic():
             teryt_class.objects.all().update(aktywny=False)
 
             row_list = parse(xml_stream)
-
             # MySQL doesn't support deferred checking of foreign key
             # constraints. As a workaround we sort data placing rows
             # with no a parent row at the begining.

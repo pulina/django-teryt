@@ -26,7 +26,7 @@ def parse(stream):
         if element.tag != 'row':
             continue
         yield {
-            x.get('name'): x.text.strip() if x.text else None for x in element
+            x.tag: x.text.strip() if x.text else None for x in element.iter()
         }
 
 

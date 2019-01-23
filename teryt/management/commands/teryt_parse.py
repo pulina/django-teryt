@@ -12,7 +12,7 @@ import zipfile
 
 from django.core.management.base import BaseCommand, CommandError
 
-from teryt.utils_zip import update_database
+from teryt.utils_zip import update_database, sort_file_names
 
 
 class Command(BaseCommand):
@@ -31,8 +31,10 @@ class Command(BaseCommand):
 
         if not args:
             raise CommandError('At least 1 file name required')
+        # Data must be enter in correct order. If you use starred syntax you cannot determine order. 
+        # We will sort files names to ensure we did not insert street data befoure city data.
 
-        for data_file in args:
+        for data_file in sort_file_names(args):
             self.stdout.write('Working on {}'.format(data_file))
             if zipfile.is_zipfile(data_file):
                 zfile = zipfile.ZipFile(data_file)
