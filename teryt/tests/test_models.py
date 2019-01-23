@@ -91,7 +91,7 @@ class TestJednostkaAdministracyjna(TestCase, MixinTestObjectsManager):
             'GMI': '01',
             'POW': '01',
             'STAN_NA': '2013-01-01',
-            'NAZDOD': 'gmina miejska',
+            'NAZWA_DOD': 'gmina miejska',
             'RODZ': '1',
             'NAZWA': 'Bolesławiec',
             'WOJ': '02'
@@ -102,7 +102,7 @@ class TestJednostkaAdministracyjna(TestCase, MixinTestObjectsManager):
             'GMI': None,
             'POW': None,
             'STAN_NA': '2013-01-01',
-            'NAZDOD': 'województwo',
+            'NAZWA_DOD': 'województwo',
             'RODZ': None,
             'NAZWA': u'DOLNOŚLĄSKIE',
             'WOJ': '02'})

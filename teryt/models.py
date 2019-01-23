@@ -125,14 +125,14 @@ class JednostkaAdministracyjna(CommonInfo):
         return Miejscowosc.objects.filter(jednostka__id__startswith=self.id)
 
     def set_val(self, d):
-        # {'GMI': None, 'POW': None, 'STAN_NA': '2013-01-01', 'NAZDOD':
+        # {'GMI': None, 'POW': None, 'STAN_NA': '2013-01-01', 'NAZWA_DOD':
         #  u'wojew\xf3dztwo', 'RODZ': None, 'NAZWA': u'DOLNO\u015aL\u0104SKIE',
         #  'WOJ': '02'}
-        # {'GMI': '01', 'POW': '01', 'STAN_NA': '2013-01-01', 'NAZDOD':
+        # {'GMI': '01', 'POW': '01', 'STAN_NA': '2013-01-01', 'NAZWA_DOD':
         #  'gmina miejska', 'RODZ': '1', 'NAZWA': u'Boles\u0142awiec', 'WOJ':
         #  '02'}
         self.nazwa = d['NAZWA']
-        self.nazwa_dod = d['NAZDOD']
+        self.nazwa_dod = d['NAZWA_DOD']
         self.stan_na = d['STAN_NA']
 
         self.id = d['WOJ'] + xstr(d['POW']) + xstr(d['GMI']) + xstr(d['RODZ'])
