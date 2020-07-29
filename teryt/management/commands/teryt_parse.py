@@ -7,7 +7,6 @@ Option --update must be used if files have records
 already existing in database
 """
 
-from optparse import make_option
 import zipfile
 
 from django.core.management.base import BaseCommand, CommandError
@@ -18,13 +17,15 @@ from teryt.utils_zip import update_database, sort_file_names
 class Command(BaseCommand):
     args = '[xml/zip file list]'
     help = 'Import TERYT data from XML/ZIP files prepared by GUS'
-    option_list = BaseCommand.option_list + (
-        make_option('--update',
-                    action='store_true',
-                    dest='update',
-                    default=False,
-                    help='Update exisitng data'),
-    )
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--update',
+            action='store_true',
+            dest='update',
+            default=False,
+            help='Update exisitng data',
+        )
 
     def handle(self, *args, **options):
         force_ins = not options['update']
