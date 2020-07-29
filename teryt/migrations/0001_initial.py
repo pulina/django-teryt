@@ -33,9 +33,9 @@ class Migration(migrations.Migration):
                                             primary_key=True)),
                 ('nazwa', models.CharField(max_length=100)),
                 ('jednostka', models.ForeignKey(
-                    to='teryt.JednostkaAdministracyjna')),
+                    to='teryt.JednostkaAdministracyjna', on_delete=models.PROTECT)),
                 ('miejscowosc_nadrzedna', models.ForeignKey(
-                    blank=True, to='teryt.Miejscowosc', null=True)),
+                    blank=True, to='teryt.Miejscowosc', null=True, on_delete=models.PROTECT)),
             ],
             options={
                 'abstract': False,
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('nazwa_1', models.CharField(max_length=100)),
                 ('nazwa_2', models.CharField(max_length=100, null=True,
                                              blank=True)),
-                ('miejscowosc', models.ForeignKey(to='teryt.Miejscowosc')),
+                ('miejscowosc', models.ForeignKey(to='teryt.Miejscowosc', on_delete=models.PROTECT)),
             ],
             options={
                 'abstract': False,
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='miejscowosc',
             name='rodzaj_miejscowosci',
-            field=models.ForeignKey(to='teryt.RodzajMiejsowosci'),
+            field=models.ForeignKey(to='teryt.RodzajMiejsowosci', on_delete=models.PROTECT),
             preserve_default=True,
         ),
     ]

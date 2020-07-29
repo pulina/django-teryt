@@ -52,10 +52,10 @@ class WiesManager(models.Manager):
 @python_2_unicode_compatible
 class Miejscowosc(CommonInfo):
     symbol = models.CharField(max_length=7, primary_key=True)
-    jednostka = models.ForeignKey('JednostkaAdministracyjna')
-    miejscowosc_nadrzedna = models.ForeignKey('self', null=True, blank=True)
+    jednostka = models.ForeignKey('JednostkaAdministracyjna', on_delete=models.PROTECT)
+    miejscowosc_nadrzedna = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT)
     nazwa = models.CharField(max_length=100)
-    rodzaj_miejscowosci = models.ForeignKey('RodzajMiejscowosci')
+    rodzaj_miejscowosci = models.ForeignKey('RodzajMiejscowosci', on_delete=models.PROTECT)
 
     miasta = MiastoManager()
     wsie = WiesManager()
@@ -149,7 +149,7 @@ class JednostkaAdministracyjna(CommonInfo):
 @python_2_unicode_compatible
 class Ulica(CommonInfo):
     id = models.CharField(max_length=12, primary_key=True)
-    miejscowosc = models.ForeignKey('Miejscowosc')
+    miejscowosc = models.ForeignKey('Miejscowosc', on_delete=models.PROTECT)
     symbol_ulicy = models.CharField(max_length=10)
     cecha = models.CharField(max_length=10)
     nazwa_1 = models.CharField(max_length=100)
