@@ -25,8 +25,8 @@ fn_dict = OrderedDict([
 # example filename 
 fn_regexp = re.compile(r'(?P<model>SIMC|TERC|ULIC|WMRODZ)(_(?P<type>[A-Za-z]+))?(_(?P<date>\d{4}\-\d{2}\-\d{2}))?\.(?P<extension>xml|XML|zip|ZIP)')
 
-url_tmpl = 'http://www.stat.gov.pl/broker/access/'\
-            'prefile/downloadPreFile.jspa?id={}'
+url_tmpl = 'http://www.stat.gov.pl/broker/access/prefile/downloadPreFile.jspa?id={}'
+
 
 def match_file_name_to_model_name(file_name):
     match = fn_regexp.match(file_name)
@@ -34,12 +34,11 @@ def match_file_name_to_model_name(file_name):
         return match.group('model')
     return None
 
+
 def sort_file_names(file_names):
-    # XXX: fn_dict is orderd
-    keys = fn_dict.keys()
+    keys = list(fn_dict)
     file_name_list = [x for x in file_names if match_file_name_to_model_name(os.path.basename(x))]
     return sorted(file_name_list, key=lambda x: keys.index(match_file_name_to_model_name(os.path.basename(x))))
-
 
 
 def open_zipfile_from_url(filename, url):
