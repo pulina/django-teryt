@@ -40,9 +40,6 @@ Install django-teryt::
 
     pip install django-teryt
 
-If you are using Django 1.6 or lower you have to install South::
-
-    pip install 'south>=1.0'
 
 Add ``teryt`` to ``INSTALLED_APPS`` in your ``settings.py`` and run::
 

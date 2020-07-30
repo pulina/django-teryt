@@ -5,8 +5,6 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
 import sys
-import os
-
 
 try:
     import django
@@ -15,22 +13,16 @@ try:
     from django.conf import settings
 
     import environ
-
     env = environ.Env()
 
     settings.configure(
         DEBUG=True,
         USE_TZ=True,
-        # DATABASES={
-        #   "default": {
-        #       "ENGINE": "django.db.backends.sqlite3",
-        #   }
-        # },
-        DATABASES = {
+        DATABASES={
             # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
             'default': env.db(
                 "DATABASE_URL",
-                default="postgres://django_teryt@/django_teryt"),
+                default="sqlite://:memory:"),
         },
         ROOT_URLCONF="teryt.urls",
         INSTALLED_APPS=[
@@ -56,12 +48,9 @@ except ImportError:
 def run_tests(*test_args):
     if not test_args:
         test_args = ['teryt.tests']
-
     # Run tests
     test_runner = NoseTestSuiteRunner(verbosity=2)
-
     failures = test_runner.run_tests(test_args)
-
     if failures:
         sys.exit(failures)
 

@@ -27,3 +27,9 @@ History
 * Improved test coverage
 * This is last version to support Django 1.6 and South
 
+0.4.0 (2020-07-30)
+++++++++++++++++++
+
+* Added support for Django 1.11 and 2.2
+* Dropped support for Django older than 1.11
+
