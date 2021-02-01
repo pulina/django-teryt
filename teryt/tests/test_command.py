@@ -25,3 +25,11 @@ class TestParseCommand(TestCase):
         self.assertTrue(JednostkaAdministracyjna.objects.count())
         self.assertTrue(Miejscowosc.objects.count())
         self.assertTrue(Ulica.objects.count())
+
+    def tearDown(self):
+        # Unittest has problems with destroying Miejscowosc
+        Ulica.objects.all().delete()
+        Miejscowosc.objects.filter(miejscowosc_nadrzedna__isnull=False).delete()
+        Miejscowosc.objects.all().delete()
+        JednostkaAdministracyjna.objects.all().delete()
+        RodzajMiejscowosci.objects.all().delete()

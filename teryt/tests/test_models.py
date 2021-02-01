@@ -4,13 +4,14 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
+from django.utils.encoding import force_str
+
 """
 test_django-teryt
 ------------
 
 Tests for `django-teryt` modules module.
 """
-from django.utils import six
 from django.test import TestCase
 from django.db import models
 
@@ -30,7 +31,7 @@ class TestRodzajMiejscowosci(TestCase, MixinTestObjectsManager):
 
     def test_str(self):
         rm = RodzajMiejscowosciFactory(id='96', nazwa='miasto')
-        self.assertEqual(six.text_type(rm), '96: miasto')
+        self.assertEqual(str(rm), '96: miasto')
 
     def test_set_val(self):
         rm = RodzajMiejscowosci()
@@ -83,7 +84,7 @@ class TestJednostkaAdministracyjna(TestCase, MixinTestObjectsManager):
             rodzaj_miejscowosci=self.rm_miasto)
 
     def test_str(self):
-        self.assertEqual(six.text_type(self.gmina), '0201011: Bolesławiec')
+        self.assertEqual(str(self.gmina), '0201011: Bolesławiec')
 
     def test_set_val(self):
         gmina = JednostkaAdministracyjna()
@@ -185,8 +186,7 @@ class TestMiejscowosc(TestCase, MixinTestObjectsManager):
         Miejscowosc.wsie.get(symbol='0005546')
 
     def test_str(self):
-        self.assertEqual(six.text_type(self.miejscowosc),
-                         '0861110: Strzygowska Kolonia')
+        self.assertEqual(str(self.miejscowosc), '0861110: Strzygowska Kolonia')
 
     def test_set_val(self):
         m_dict = {
@@ -236,12 +236,9 @@ class TestUlica(TestCase, MixinTestObjectsManager):
         )
 
     def test_str(self):
-        self.assertEqual(six.text_type(self.ulica1), 'ul. {} ({})'.format(
-            self.ulica1.nazwa_1, self.ulica1.miejscowosc.nazwa))
+        self.assertEqual(str(self.ulica1), 'ul. {} ({})'.format(self.ulica1.nazwa_1, self.ulica1.miejscowosc.nazwa))
 
-        self.assertEqual(six.text_type(self.ulica2),
-                         'pl. Bogumiła Hoffa ({})'.format(
-                         self.ulica2.miejscowosc.nazwa))
+        self.assertEqual(str(self.ulica2), 'pl. Bogumiła Hoffa ({})'.format(self.ulica2.miejscowosc.nazwa))
 
     def test_set_val(self):
         m_dict = {

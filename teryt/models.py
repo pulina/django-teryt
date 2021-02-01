@@ -3,7 +3,6 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 
 from .utils import xstr
 
@@ -19,7 +18,6 @@ class CommonInfo(models.Model):
 
 
 # WMRODZ
-@python_2_unicode_compatible
 class RodzajMiejscowosci(CommonInfo):
     id = models.CharField(max_length=2, primary_key=True)
     nazwa = models.CharField(max_length=30)
@@ -49,7 +47,6 @@ class WiesManager(models.Manager):
             self).get_queryset().filter(rodzaj_miejscowosci_id__exact='01')
 
 
-@python_2_unicode_compatible
 class Miejscowosc(CommonInfo):
     symbol = models.CharField(max_length=7, primary_key=True)
     jednostka = models.ForeignKey('JednostkaAdministracyjna', on_delete=models.PROTECT)
@@ -98,7 +95,6 @@ class GminaManager(models.Manager):
                      self).get_queryset().filter(typ__exact='GMI')
 
 
-@python_2_unicode_compatible
 class JednostkaAdministracyjna(CommonInfo):
     LEN_TYPE = {
         7: 'GMI',
@@ -146,7 +142,6 @@ class JednostkaAdministracyjna(CommonInfo):
 
 
 # ULIC
-@python_2_unicode_compatible
 class Ulica(CommonInfo):
     id = models.CharField(max_length=12, primary_key=True)
     miejscowosc = models.ForeignKey('Miejscowosc', on_delete=models.PROTECT)
