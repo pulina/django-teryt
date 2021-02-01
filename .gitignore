@@ -41,5 +41,8 @@ output/*/index.html
 # Sphinx
 docs/_build
 
-# VIM
-.*.swp
+# hidden files
+.*
+
+# virutalenvs
+virtualenv
