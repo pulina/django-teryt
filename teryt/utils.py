@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import xml.etree.cElementTree as et
-from django.utils.encoding import smart_text
+try:
+    from django.utils.encoding import smart_text as smart_str
+except ImportError:
+    from django.utils.encoding import smart_str
 import re
 
 def_gus_url = 'http://www.stat.gov.pl/broker/access/prefile/'\
@@ -18,7 +21,7 @@ class ParsingError(Exception):
 
 
 def xstr(s):
-    return '' if s is None else smart_text(s)
+    return '' if s is None else smart_str(s)
 
 
 def parse(stream):
