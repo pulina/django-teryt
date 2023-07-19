@@ -4,7 +4,7 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
-from django.utils.encoding import force_str
+import six
 
 """
 test_django-teryt
@@ -84,7 +84,7 @@ class TestJednostkaAdministracyjna(TestCase, MixinTestObjectsManager):
             rodzaj_miejscowosci=self.rm_miasto)
 
     def test_str(self):
-        self.assertEqual(str(self.gmina), '0201011: Bolesławiec')
+        self.assertEqual(six.text_type(self.gmina), '0201011: Bolesławiec')
 
     def test_set_val(self):
         gmina = JednostkaAdministracyjna()
@@ -236,9 +236,9 @@ class TestUlica(TestCase, MixinTestObjectsManager):
         )
 
     def test_str(self):
-        self.assertEqual(str(self.ulica1), 'ul. {} ({})'.format(self.ulica1.nazwa_1, self.ulica1.miejscowosc.nazwa))
+        self.assertEqual(six.text_type(self.ulica1), 'ul. {} ({})'.format(self.ulica1.nazwa_1, self.ulica1.miejscowosc.nazwa))
 
-        self.assertEqual(str(self.ulica2), 'pl. Bogumiła Hoffa ({})'.format(self.ulica2.miejscowosc.nazwa))
+        self.assertEqual(six.text_type(self.ulica2), 'pl. Bogumiła Hoffa ({})'.format(self.ulica2.miejscowosc.nazwa))
 
     def test_set_val(self):
         m_dict = {
