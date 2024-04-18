@@ -75,6 +75,9 @@ class Miejscowosc(CommonInfo):
     def __str__(self):
         return '{}: {}'.format(self.symbol, self.nazwa)
 
+    class Meta:
+        default_manager_name = "objects"
+
 
 # TERC
 class WojewodztwoManager(models.Manager):
@@ -139,6 +142,9 @@ class JednostkaAdministracyjna(CommonInfo):
 
     def __str__(self):
         return '{}: {}'.format(self.id, self.nazwa)
+
+    class Meta:
+        default_manager_name = "objects"
 
 
 # ULIC
